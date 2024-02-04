@@ -1,5 +1,5 @@
-export const Contact = ({name }) => {
+export const Contact = ({ id, name, number, onDelete }) => {
     return <li>
-        <p>{ name }</p>
+        <p>{name}: { number } <button onClick={evt=>onDelete(id)}>Delete</button></p>
     </li>
 }
