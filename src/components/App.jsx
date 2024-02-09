@@ -30,7 +30,6 @@ export class App extends Component {
     });
   };
   updateFilter = filterName => {
-    console.log(filterName);
     this.setState({
       filter: filterName,
     });
