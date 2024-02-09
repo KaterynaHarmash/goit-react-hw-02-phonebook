@@ -20,6 +20,9 @@ export class App extends Component {
     });
   };
   addContact = newContact => {
+    if (this.state.contacts.includes(newContact.name)) {
+      return alert('This Contact is already in contacts');
+    }
     this.setState(prevState => {
       return {
         contacts: [...prevState.contacts, { ...newContact, id: nanoid() }],
