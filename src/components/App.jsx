@@ -20,7 +20,7 @@ export class App extends Component {
     });
   };
   addContact = newContact => {
-    if (this.state.contacts.includes(newContact.name)) {
+    if (this.state.contacts.find(contact => contact.name === newContact.name)) {
       return alert('This Contact is already in contacts');
     }
     this.setState(prevState => {
