@@ -1,30 +1,53 @@
+import React from 'react';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 import {
   Button,
-  Form,
+  Error,
   Input,
   InputContainer,
   Label,
+  StyledForm,
 } from './ContactForm.styled';
-
-function HandleSubmit(callback, event) {
-  event.preventDefault();
-  const form = event.target;
-  const inputName = form.elements.name.value;
-  const inputNumber = form.elements.number.value;
-}
+const ContactSchema = Yup.object().shape({
+  name: Yup.string()
+    .min(2, 'Too Short!')
+    .max(150, 'Too Long!')
+    .required('Required'),
+  number: Yup.number()
+    .moreThan(5, 'Too Short!')
+    .positive()
+    .required('Required'),
+});
 
 export const ContactForm = ({ onSubmit }) => {
   return (
-    <Form onSubmit={evt => HandleSubmit(onSubmit(), evt)}>
-      <InputContainer>
-        <Input type="text" name="name" required />
-        <Label>Full name</Label>
-      </InputContainer>
-      <InputContainer>
-        <Input type="tel" name="number" required />
-        <Label>Phone number</Label>
-      </InputContainer>
-      <Button type="submit">Add contact</Button>
-    </Form>
+    <Formik
+      initialValues={{
+        name: '',
+        number: '',
+      }}
+      validationSchema={ContactSchema}
+      onSubmit={(values, actions) => {
+        console.log(values);
+        onSubmit(values);
+        actions.resetForm();
+      }}
+    >
+      <StyledForm>
+        <InputContainer>
+          <Input name="name" placeholder="Jane Human" />
+          <Label htmlFor="name">Full Name</Label>
+          <Error name="name" component="span" />
+        </InputContainer>
+        <InputContainer>
+          <Input name="number" placeholder="+380-95-999-88-77" />
+          <Label htmlFor="number">Number</Label>
+          <Error name="number" component="span" />
+        </InputContainer>
+
+        <Button type="submit">Add contact</Button>
+      </StyledForm>
+    </Formik>
   );
 };

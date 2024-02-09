@@ -19,24 +19,12 @@ export class App extends Component {
       };
     });
   };
-  addContact = evt => {
-    // const findContact = this.state.contacts.find(
-    //   contact => contact.name.toLowerCase() === inputName.toLowerCase()
-    // );
-    // if (findContact) {
-    //   return alert(`${inputName} is already in Contacts`);
-    // }
-    // const newContact = {
-    //   id: nanoid(),
-    //   name: inputName,
-    //   number: inputNumber,
-    // };
-    // this.setState(prevState => {
-    //   return {
-    //     contacts: [...prevState.contacts, newContact],
-    //   };
-    // });
-    // form.reset();
+  addContact = newContact => {
+    this.setState(prevState => {
+      return {
+        contacts: [...prevState.contacts, { ...newContact, id: nanoid() }],
+      };
+    });
   };
   updateFilter = filterName => {
     console.log(filterName);
@@ -46,9 +34,12 @@ export class App extends Component {
   };
   render() {
     const { contacts, filter } = this.state;
-    const filteredContacts = contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
-    );
+    let filteredContacts;
+    if (contacts.length !== 0) {
+      filteredContacts = contacts.filter(contact =>
+        contact.name.toLowerCase().includes(filter.toLowerCase())
+      );
+    }
     return (
       <main>
         <GlobalStyle />
